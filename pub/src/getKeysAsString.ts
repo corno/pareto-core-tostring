@@ -5,7 +5,7 @@ export function getKeysAsString<T>(
 ): string {
     const maxAmount = 10
     const foundKeys: string[] = []
-    dict.forEach(() => false, ($, key) => {
+    dict.map(($, key) => {
        foundKeys.push(key)
     })
 
