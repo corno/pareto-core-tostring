@@ -1,21 +1,17 @@
 
-import * as pa from "pareto-core-async"
 import * as pm from "pareto-core-state"
 import * as pl from "pareto-core-lib"
 
 import * as test from "lib-pareto-test"
 
-import * as pub from "../../../pub"
+import * as pub from "../../../../pub/dist"
 
-export function createGetTestSet($d: {}): test.GetTestSet {
+import * as api from "../../interface"
+
+export const createGetTestset: api.FCreateGetTestset = () => {
     return () => {
 
-        const builder = pm.createDictionaryBuilder<test.TTestElement>(
-            ["ignore", {}],
-            () => {
-                pl.panic("duplicate key")
-            }
-        )
+        const builder = pm.createUnsafeDictionaryBuilder<test.TTestElement>()
         function createTest(name: string, actual: string, expected: string) {
             builder.add(name, {
                 type: ["test", {
@@ -27,7 +23,7 @@ export function createGetTestSet($d: {}): test.GetTestSet {
             })
         }
 
-        return pa.value({
+        return pl.asyncValue({
             elements: builder.getDictionary()
         })
     }
